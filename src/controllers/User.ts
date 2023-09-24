@@ -132,7 +132,7 @@ export const followUser = async (req: Request, res: Response, next: NextFunction
       }
     );
 
-    pusher.trigger("user", "followUser", {
+    await pusher.trigger("user", "followUser", {
       user: finalTargetUser,
     });
 

@@ -132,7 +132,7 @@ const followUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         }, {
             new: true,
         });
-        pusher_1.default.trigger("user", "followUser", {
+        yield pusher_1.default.trigger("user", "followUser", {
             user: finalTargetUser,
         });
         res.status(200).json({ success: true, message: "Success" });

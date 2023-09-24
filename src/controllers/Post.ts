@@ -32,7 +32,7 @@ export const addPost = async (req: Request, res: Response, next: NextFunction) =
 
     const newData = await data.populate("user_id", "username _id profile.image");
 
-    pusher.trigger("post", "newPost", {
+    await pusher.trigger("post", "newPost", {
       post: newData,
     });
 

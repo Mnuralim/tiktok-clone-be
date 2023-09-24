@@ -25,7 +25,7 @@ const addComment = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             text: comment,
         });
         yield data.populate("user", "_id profile username");
-        pusher_1.default.trigger("comment", "commentPost", {
+        yield pusher_1.default.trigger("comment", "commentPost", {
             comment: data,
         });
         res.status(201).json({ success: true, data });

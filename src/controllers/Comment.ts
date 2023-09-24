@@ -13,7 +13,7 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
       text: comment,
     });
     await data.populate("user", "_id profile username");
-    pusher.trigger("comment", "commentPost", {
+    await pusher.trigger("comment", "commentPost", {
       comment: data,
     });
 

@@ -41,7 +41,7 @@ const addPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
             post_public_id: videoPublicId,
         });
         const newData = yield data.populate("user_id", "username _id profile.image");
-        pusher_1.default.trigger("post", "newPost", {
+        yield pusher_1.default.trigger("post", "newPost", {
             post: newData,
         });
         res.status(201).json({ success: true, newData });
