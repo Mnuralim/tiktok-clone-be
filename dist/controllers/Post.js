@@ -123,7 +123,7 @@ const likePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         yield post.populate("user_id", "username _id profile.image");
         yield post.save();
         const allPost = yield PostModel_1.default.find().populate("user_id", "username _id profile.image").select("-__v -updatedAt").sort("-createdAt");
-        pusher_1.default.trigger("post", "likePost", {
+        yield pusher_1.default.trigger("post", "likePost", {
             allPost: allPost,
             singlePost: post,
         });
