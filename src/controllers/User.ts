@@ -79,7 +79,6 @@ export const getAllUsers = async (req: Request, res: Response, next: NextFunctio
       user.total_post = await getTotalPost(user.id);
       await user.save();
     }
-    console.log(data);
 
     res.status(200).json({ success: true, data });
   } catch (error) {

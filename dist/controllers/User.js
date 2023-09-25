@@ -92,7 +92,6 @@ const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             user.total_post = yield getTotalPost(user.id);
             yield user.save();
         }
-        console.log(data);
         res.status(200).json({ success: true, data });
     }
     catch (error) {
