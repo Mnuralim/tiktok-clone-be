@@ -56,7 +56,7 @@ const getSingleUser = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             .select("-__v")
             .populate({
             path: "liked_post",
-            select: "_id thumbnail user_id total_view",
+            select: "_id thumbnail user_id total_view createdAt",
             populate: {
                 path: "user_id",
                 select: "username",

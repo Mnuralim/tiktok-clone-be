@@ -41,7 +41,7 @@ export const getSingleUser = async (req: Request, res: Response, next: NextFunct
       .select("-__v")
       .populate({
         path: "liked_post",
-        select: "_id thumbnail user_id total_view",
+        select: "_id thumbnail user_id total_view createdAt",
         populate: {
           path: "user_id",
           select: "username",
