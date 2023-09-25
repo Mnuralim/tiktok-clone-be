@@ -73,7 +73,7 @@ const getPostUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         })
             .populate("user_id", "username _id profile.image")
             .select("-__v -updatedAt")
-            .sort("-createdAt");
+            .sort("createdAt");
         res.status(200).json({ success: true, data });
     }
     catch (error) {
