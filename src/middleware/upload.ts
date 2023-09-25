@@ -8,7 +8,7 @@ export const upload = multer({
     if (file.fieldname === "video") {
       file.mimetype === "video/mp4" || file.mimetype == "video/mov" ? callback(null, true) : callback(null, false);
     } else if (file.fieldname === "thumbnail") {
-      file.mimetype === "image/jpeg" || file.mimetype == "image/png" ? callback(null, true) : callback(null, false);
+      file.mimetype === "image/jpeg" || file.mimetype == "image/png" || file.mimetype === "image/jpg" ? callback(null, true) : callback(null, false);
     }
   },
   limits: {
