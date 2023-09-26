@@ -3,8 +3,8 @@ import { addComment, getAllComments } from "../controllers/Comment";
 
 const router: Router = express.Router();
 
-router.post("/add-comment/:userId/:postId", addComment);
-router.get("/all-comments/:postId", getAllComments);
+router.post("/:userId/:postId", addComment);
+router.get("/:postId", getAllComments);
 
 const commentRouter = router;
 

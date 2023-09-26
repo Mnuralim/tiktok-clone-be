@@ -4,11 +4,11 @@ import { upload } from "../middleware/upload";
 
 const router: Router = express.Router();
 
-router.post("/add-post", upload, addPost);
-router.get("/all-post", getAllPost);
+router.post("/", upload, addPost);
+router.get("/", getAllPost);
 router.get("/user-post/:username", getPostUser);
-router.get("/single-post/:id", getSinglePost);
 router.put("/likes/:postId/:currentUser", likePost);
+router.get("/:id", getSinglePost);
 
 const PostRouter = router;
 

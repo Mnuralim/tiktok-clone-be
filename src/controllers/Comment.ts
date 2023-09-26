@@ -7,17 +7,17 @@ export const addComment = async (req: Request, res: Response, next: NextFunction
   const { comment } = req.body;
 
   try {
-    const data = await Comment.create({
+    const addNewComment = await Comment.create({
       user: userId,
       post: postId,
       text: comment,
     });
-    await data.populate("user", "_id profile username");
+    await addNewComment.populate("user", "_id profile username");
     await pusher.trigger("comment", "commentPost", {
-      comment: data,
+      comment: addNewComment,
     });
 
-    res.status(201).json({ success: true, data });
+    res.status(201).json({ success: true, data: addNewComment });
   } catch (error) {
     next(error);
   }
@@ -27,8 +27,8 @@ export const getAllComments = async (req: Request, res: Response, next: NextFunc
   const { postId } = req.params;
 
   try {
-    const data = await Comment.find({ post: postId }).populate("user", "_id profile username");
-    res.status(200).json({ success: true, data });
+    const comments = await Comment.find({ post: postId }).populate("user", "_id profile username");
+    res.status(200).json({ success: true, data: comments });
   } catch (error) {
     next(error);
   }

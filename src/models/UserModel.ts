@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-// Declare the Schema of the Mongo model
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -66,7 +65,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-//Export the model
 const User = mongoose.model("users", userSchema);
 
 export default User;

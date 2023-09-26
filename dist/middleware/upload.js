@@ -17,7 +17,7 @@ exports.upload = (0, multer_1.default)({
         }
     },
     limits: {
-        fileSize: 11000000,
+        fileSize: 5000000,
     },
 }).fields([
     {

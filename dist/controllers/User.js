@@ -20,7 +20,7 @@ const getUserId_1 = require("../utils/getUserId");
 const addUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, username, email, image } = req.body;
     try {
-        const data = yield UserModel_1.default.create({
+        const addNewUser = yield UserModel_1.default.create({
             username,
             email,
             profile: {
@@ -28,7 +28,7 @@ const addUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
                 image,
             },
         });
-        res.status(201).json({ success: true, data });
+        res.status(201).json({ success: true, data: addNewUser });
     }
     catch (error) {
         next(error);

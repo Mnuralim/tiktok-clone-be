@@ -19,16 +19,16 @@ const addComment = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     const { userId, postId } = req.params;
     const { comment } = req.body;
     try {
-        const data = yield CommentModel_1.default.create({
+        const addNewComment = yield CommentModel_1.default.create({
             user: userId,
             post: postId,
             text: comment,
         });
-        yield data.populate("user", "_id profile username");
+        yield addNewComment.populate("user", "_id profile username");
         yield pusher_1.default.trigger("comment", "commentPost", {
-            comment: data,
+            comment: addNewComment,
         });
-        res.status(201).json({ success: true, data });
+        res.status(201).json({ success: true, data: addNewComment });
     }
     catch (error) {
         next(error);
@@ -38,8 +38,8 @@ exports.addComment = addComment;
 const getAllComments = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { postId } = req.params;
     try {
-        const data = yield CommentModel_1.default.find({ post: postId }).populate("user", "_id profile username");
-        res.status(200).json({ success: true, data });
+        const comments = yield CommentModel_1.default.find({ post: postId }).populate("user", "_id profile username");
+        res.status(200).json({ success: true, data: comments });
     }
     catch (error) {
         next(error);

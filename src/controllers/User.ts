@@ -8,7 +8,7 @@ export const addUser = async (req: Request, res: Response, next: NextFunction) =
   const { name, username, email, image } = req.body;
 
   try {
-    const data = await User.create({
+    const addNewUser = await User.create({
       username,
       email,
       profile: {
@@ -16,7 +16,7 @@ export const addUser = async (req: Request, res: Response, next: NextFunction) =
         image,
       },
     });
-    res.status(201).json({ success: true, data });
+    res.status(201).json({ success: true, data: addNewUser });
   } catch (error) {
     next(error);
   }

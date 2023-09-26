@@ -32,7 +32,7 @@ const addPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         const thumbnailPublicid = `thumbnail${date.getTime()}${userId}`;
         const thumbnailResult = yield (0, uploader_1.uploader)(thumbnailPath, thumbnailPublicid);
         const videoresult = yield (0, uploader_1.uploader)(videoPath, videoPublicId);
-        const data = yield PostModel_1.default.create({
+        const addNewPost = yield PostModel_1.default.create({
             user_id: userId,
             caption,
             location,
@@ -40,11 +40,11 @@ const addPost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
             post: videoresult.secure_url,
             post_public_id: videoPublicId,
         });
-        const newData = yield data.populate("user_id", "username _id profile.image");
+        yield addNewPost.populate("user_id", "username _id profile.image");
         yield pusher_1.default.trigger("post", "newPost", {
-            post: newData,
+            post: addNewPost,
         });
-        res.status(201).json({ success: true, newData });
+        res.status(201).json({ success: true, data: addNewPost });
     }
     catch (error) {
         next(error);
@@ -68,13 +68,13 @@ const getPostUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
     const { username } = req.params;
     const userId = yield (0, getUserId_1.getId)(username);
     try {
-        const data = yield PostModel_1.default.find({
+        const userPosts = yield PostModel_1.default.find({
             user_id: userId,
         })
             .populate("user_id", "username _id profile.image")
             .select("-__v -updatedAt")
             .sort("createdAt");
-        res.status(200).json({ success: true, data });
+        res.status(200).json({ success: true, data: userPosts });
     }
     catch (error) {
         next(error);
@@ -84,10 +84,10 @@ exports.getPostUser = getPostUser;
 const getSinglePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
-        const data = yield PostModel_1.default.findById(id).populate("user_id", "username _id profile.image").select("-__v -updatedAt");
-        if (!data)
+        const post = yield PostModel_1.default.findById(id).populate("user_id", "username _id profile.image").select("-__v -updatedAt");
+        if (!post)
             return res.status(404).json({ message: "Data not found", success: false });
-        res.status(200).json({ success: true, data });
+        res.status(200).json({ success: true, data: post });
     }
     catch (error) {
         next(error);

@@ -21,7 +21,7 @@ export const addPost = async (req: Request, res: Response, next: NextFunction) =
     const thumbnailResult = await uploader(thumbnailPath, thumbnailPublicid);
     const videoresult = await uploader(videoPath, videoPublicId);
 
-    const data = await Post.create({
+    const addNewPost = await Post.create({
       user_id: userId,
       caption,
       location,
@@ -30,13 +30,13 @@ export const addPost = async (req: Request, res: Response, next: NextFunction) =
       post_public_id: videoPublicId,
     });
 
-    const newData = await data.populate("user_id", "username _id profile.image");
+    await addNewPost.populate("user_id", "username _id profile.image");
 
     await pusher.trigger("post", "newPost", {
-      post: newData,
+      post: addNewPost,
     });
 
-    res.status(201).json({ success: true, newData });
+    res.status(201).json({ success: true, data: addNewPost });
   } catch (error) {
     next(error);
   }
@@ -58,13 +58,14 @@ export const getPostUser = async (req: Request, res: Response, next: NextFunctio
   const { username } = req.params;
   const userId = await getId(username);
   try {
-    const data = await Post.find({
+    const userPosts = await Post.find({
       user_id: userId,
     })
       .populate("user_id", "username _id profile.image")
       .select("-__v -updatedAt")
       .sort("createdAt");
-    res.status(200).json({ success: true, data });
+
+    res.status(200).json({ success: true, data: userPosts });
   } catch (error) {
     next(error);
   }
@@ -73,9 +74,10 @@ export const getPostUser = async (req: Request, res: Response, next: NextFunctio
 export const getSinglePost = async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   try {
-    const data = await Post.findById(id).populate("user_id", "username _id profile.image").select("-__v -updatedAt");
-    if (!data) return res.status(404).json({ message: "Data not found", success: false });
-    res.status(200).json({ success: true, data });
+    const post = await Post.findById(id).populate("user_id", "username _id profile.image").select("-__v -updatedAt");
+    if (!post) return res.status(404).json({ message: "Data not found", success: false });
+
+    res.status(200).json({ success: true, data: post });
   } catch (error) {
     next(error);
   }
@@ -86,9 +88,10 @@ export const likePost = async (req: Request, res: Response, next: NextFunction) 
   try {
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json({ message: "Data not found", success: false });
-    const user = await User.findById(currentUser);
 
+    const user = await User.findById(currentUser);
     const alreadyLike = post.likes.find((id) => id.toString() === currentUser);
+
     if (!alreadyLike) {
       //@ts-ignore
       post.likes.push(currentUser);
@@ -106,7 +109,9 @@ export const likePost = async (req: Request, res: Response, next: NextFunction) 
     }
     const totalLikes = post.likes.length;
     post.total_likes = totalLikes;
+
     post.total_comments = (await Comment.find({ post: post._id })).length;
+
     await post.populate("user_id", "username _id profile.image");
     await post.save();
 

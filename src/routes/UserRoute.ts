@@ -3,11 +3,11 @@ import { addUser, checkUser, followUser, getAllUsers, getSingleUser } from "../c
 
 const router: Router = express.Router();
 
-router.post("/add-user", addUser);
-router.get("/check-user/:email", checkUser);
-router.get("/single-user/:username", getSingleUser);
-router.get("/all-user", getAllUsers);
+router.post("/", addUser);
+router.get("/", getAllUsers);
 router.put("/follows/:currentId/:targetId", followUser);
+router.get("/check-user/:email", checkUser);
+router.get("/:username", getSingleUser);
 
 const UserRouter = router;
 

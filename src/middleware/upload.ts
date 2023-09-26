@@ -12,7 +12,7 @@ export const upload = multer({
     }
   },
   limits: {
-    fileSize: 11000000,
+    fileSize: 5000000,
   },
 }).fields([
   {
