@@ -110,10 +110,7 @@ export const likePost = async (req: Request, res: Response, next: NextFunction) 
     await post.populate("user_id", "username _id profile.image");
     await post.save();
 
-    const allPost = await Post.find().populate("user_id", "username _id profile.image").select("-__v -updatedAt").sort("-createdAt");
-
     await pusher.trigger("post", "likePost", {
-      allPost: allPost,
       singlePost: post,
     });
 

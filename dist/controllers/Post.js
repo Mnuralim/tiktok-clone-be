@@ -123,9 +123,7 @@ const likePost = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         post.total_comments = (yield CommentModel_1.default.find({ post: post._id })).length;
         yield post.populate("user_id", "username _id profile.image");
         yield post.save();
-        const allPost = yield PostModel_1.default.find().populate("user_id", "username _id profile.image").select("-__v -updatedAt").sort("-createdAt");
         yield pusher_1.default.trigger("post", "likePost", {
-            allPost: allPost,
             singlePost: post,
         });
         res.status(200).json({ success: true, data: post });
