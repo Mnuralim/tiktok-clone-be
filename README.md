@@ -8,9 +8,9 @@ https://gleaming-pear-trunks.cyclic.cloud/
 
 example : https://gleaming-pear-trunks.cyclic.cloud/api/v1/users
 
-## 🚀 About Me
+## Tech Stack
 
-I'm a student and full stack developer...
+**Server:** Express js, Typescript, MongoDB
 
 ## Installation
 
@@ -46,3 +46,27 @@ Start the server
 ```bash
   npm run start
 ```
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`PORT`
+
+`DB_URL`
+
+`CLOUD_NAME`
+
+`API_KEY`
+
+`API_SECRET`
+
+`PUSHER_API_ID`
+
+`PUSHER_KEY`
+
+`PUSHER_SECRET`
+
+## 🚀 About Me
+
+I'm a student and full stack developer...
