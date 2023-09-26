@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 import commentRouter from "./routes/CommentRoute";
 import PostRouter from "./routes/PostRoute";
-import UserRouter from "./routes/userRoute";
+import UserRouter from "./routes/UserRoute";
 
 const app = express();
 
